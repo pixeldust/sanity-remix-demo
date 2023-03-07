@@ -22,6 +22,7 @@
     "@sanity/preview-kit": "^1.2.10",
     "@sanity/vision": "^3.4.0",
     "@vercel/node": "^2.9.12",
+    "@vercel/remix-entry-server": "^0.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "groq": "^2.33.2",
