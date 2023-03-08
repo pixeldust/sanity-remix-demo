@@ -19,10 +19,9 @@ export default function ArtistPhoto(props: ArtistPhotoProps) {
           className="h-auto w-full object-cover shadow-black transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-cyan-200"
           src={urlBuilder(projectDetails())
             // @ts-ignore
-            .image(image.asset._ref)
+            .image(image)
             .height(800)
             .width(800)
-            .fit('max')
             .auto('format')
             .url()}
           alt={String(title) ?? ``}
