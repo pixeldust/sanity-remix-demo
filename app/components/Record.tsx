@@ -27,7 +27,7 @@ export default function Record(props: RecordDocument) {
             
             {artist ? (
               <a href={`artist/${artist.slug}`}>
-                <h2 className="bg-black text-2xl font-bold tracking-tighter text-white">by {artist.title}</h2>
+                <h2 className="bg-black text-2xl font-bold tracking-tighter text-white p-2">by {artist.title}</h2>
               </a>
             ) : null}
           </header>

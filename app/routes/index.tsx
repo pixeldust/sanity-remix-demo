@@ -78,7 +78,7 @@ export default function Index() {
                     <span className="pt-4 text-xl font-bold">{record.title}</span>
                   )}
                   {record?.artist ? (
-                    <span className="bg-black font-bold leading-none tracking-tighter text-white">
+                    <span className="bg-black p-2 font-bold leading-none tracking-tighter text-white">
                       by {record.artist.title}
                     </span>
                   ) : null}
