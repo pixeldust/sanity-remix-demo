@@ -30,9 +30,14 @@ export const loader = async ({request}: LoaderArgs) => {
 
   // Check the URL has a valid ?slug param
   const slug = requestUrl.searchParams.get('slug')
+  const docType = requestUrl.searchParams.get('doctype')
   
   if (!slug) {
     return new Response('No slug in URL', {status: 401})
+  }
+
+  if (!docType) {
+    return new Response('No document type in URL', {status: 401})
   }
 
   // Check the URL has a ?secret param
@@ -42,56 +47,58 @@ export const loader = async ({request}: LoaderArgs) => {
     return new Response('No secret in URL', {status: 401})
   }
 
-  // Confirm the passed-in slug actually exists
-  let validSlug = await previewClient.fetch(
-    groq`*[_type == "record" && slug.current == $slug][0].slug.current`,
-    {slug}
-  )
+  if (docType === 'record') {
+    // Confirm the passed-in slug actually exists
+    let validSlug = await previewClient.fetch(
+      groq`*[_type == "record" && slug.current == $slug][0].slug.current`,
+      {slug}
+    )
 
-  if (validSlug) {
-    const validSecret = await getSecret(previewClient, SECRET_ID, false)
-  
-    if (validSecret !== secret) {
-      return new Response('Invalid secret', {status: 401})
+    if (validSlug) {
+      const validSecret = await getSecret(previewClient, SECRET_ID, false)
+    
+      if (validSecret !== secret) {
+        return new Response('Invalid secret', {status: 401})
+      }
+    
+      // Write viewer token to session so that every route can authenticate by it
+      const session = await getSession(request.headers.get('Cookie'))
+      session.set(`token`, process.env.SANITY_READ_TOKEN)
+    
+      return redirect(`/${validSlug}`, {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      })
     }
-  
-    // Write viewer token to session so that every route can authenticate by it
-    const session = await getSession(request.headers.get('Cookie'))
-    session.set(`token`, process.env.SANITY_READ_TOKEN)
-  
-    return redirect(`/${validSlug}`, {
-      headers: {
-        'Set-Cookie': await commitSession(session),
-      },
-    })
   }
 
-  // Confirm the passed-in slug actually exists
-  validSlug = await previewClient.fetch(
-    groq`*[_type == "artist" && slug.current == $slug][0].slug.current`,
-    {slug}
-  )
+  if (docType === 'artist') {
+    // Confirm the passed-in slug actually exists
+    const validSlug = await previewClient.fetch(
+      groq`*[_type == "artist" && slug.current == $slug][0].slug.current`,
+      {slug}
+    )
 
-  if (validSlug) {
-    const validSecret = await getSecret(previewClient, SECRET_ID, false)
-  
-    if (validSecret !== secret) {
-      return new Response('Invalid secret', {status: 401})
+    if (validSlug) {
+      const validSecret = await getSecret(previewClient, SECRET_ID, false)
+    
+      if (validSecret !== secret) {
+        return new Response('Invalid secret', {status: 401})
+      }
+    
+      // Write viewer token to session so that every route can authenticate by it
+      const session = await getSession(request.headers.get('Cookie'))
+      session.set(`token`, process.env.SANITY_READ_TOKEN)
+    
+      return redirect(`/artist/${validSlug}`, {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      })
     }
-  
-    // Write viewer token to session so that every route can authenticate by it
-    const session = await getSession(request.headers.get('Cookie'))
-    session.set(`token`, process.env.SANITY_READ_TOKEN)
-  
-    return redirect(`/artist/${validSlug}`, {
-      headers: {
-        'Set-Cookie': await commitSession(session),
-      },
-    })
   }
 
   // bail
-  if (!validSlug) {
-    return new Response('Invalid slug', {status: 401})
-  }
+  return new Response('Invalid slug', {status: 401})
 }

@@ -35,7 +35,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType,
         S.view
           .component(Iframe)
           .options({
-            url: (doc: SanityDocumentWithSlug) => resolvePreviewUrl(doc, client),
+            url: (doc: SanityDocumentWithSlug) => resolvePreviewUrl(doc, client, 'record'),
             reload: {button: true},
           })
           .title('Preview'),
@@ -53,7 +53,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType,
         S.view
           .component(Iframe)
           .options({
-            url: (doc: SanityDocumentWithSlug) => resolvePreviewUrl(doc, client),
+            url: (doc: SanityDocumentWithSlug) => resolvePreviewUrl(doc, client, 'artist'),
             reload: {button: true},
           })
           .title('Preview'),
