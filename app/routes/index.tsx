@@ -79,7 +79,7 @@ export default function Index() {
                   )}
                   {record?.artist ? (
                     <span className="bg-black font-bold leading-none tracking-tighter text-white">
-                      {record.artist.title}
+                      by {record.artist.title}
                     </span>
                   ) : null}
                 </div>
