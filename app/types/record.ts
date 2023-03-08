@@ -14,7 +14,10 @@ export const recordZ = z.object({
   slug: z.string().nullable(),
   likes: z.number(),
   dislikes: z.number(),
-  artist: z.string().nullable(),
+  artist: z.object({
+    title: z.string().nullable(),
+    slug: z.string().nullable()
+  }),
   tracks: z
     .array(
       z.object({
@@ -37,7 +40,10 @@ export const recordStubZ = z.object({
   _id: z.string(),
   title: z.string().nullable(),
   slug: z.string().nullable(),
-  artist: z.string().nullable(),
+  artist: z.object({
+    title: z.string().nullable(),
+    slug: z.string().nullable()
+  }),
   image: z.any().nullable(),
 })
 

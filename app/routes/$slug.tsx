@@ -78,7 +78,10 @@ export const loader = async ({params, request}: LoaderArgs) => {
     title,
     // GROQ can re-shape data in the request!
     "slug": slug.current,
-    "artist": artist->title,
+    artist -> {
+      title,
+      "slug": slug.current
+    },
     // coalesce() returns the first value that is not null
     // so we can ensure we have at least a zero
     "likes": coalesce(likes, 0),

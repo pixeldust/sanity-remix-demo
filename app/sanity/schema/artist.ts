@@ -23,5 +23,14 @@ export default defineType({
       type: 'image',
       options: {hotspot: true},
     }),
+    defineField({
+      name: 'summary',
+      type: 'text',
+    }),
+    defineField({
+      name: 'content',
+      type: 'array',
+      of: [{type: 'block'}, {type: 'image'}],
+    }),
   ],
 })

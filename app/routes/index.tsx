@@ -29,7 +29,10 @@ export const loader = async (props: LoaderArgs) => {
     _id,
     title,
     "slug": slug.current,
-    "artist": artist->title,
+    artist -> {
+      title,
+      "slug": slug.current,
+    },
     image
   }`
 
@@ -76,7 +79,7 @@ export default function Index() {
                   )}
                   {record?.artist ? (
                     <span className="bg-black font-bold leading-none tracking-tighter text-white">
-                      {record.artist}
+                      {record.artist.title}
                     </span>
                   ) : null}
                 </div>

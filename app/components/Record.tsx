@@ -24,8 +24,11 @@ export default function Record(props: RecordDocument) {
         <div className="flex flex-shrink-0 flex-col gap-4 md:gap-6 lg:w-2/3">
           <header>
             {title ? <Title>{title}</Title> : null}
+            
             {artist ? (
-              <h2 className="bg-black text-2xl font-bold tracking-tighter text-white">{artist}</h2>
+              <a href={`artist/${artist.slug}`}>
+                <h2 className="bg-black text-2xl font-bold tracking-tighter text-white">{artist.title}</h2>
+              </a>
             ) : null}
           </header>
           {content && content?.length > 0 ? <SanityContent value={content} /> : null}
