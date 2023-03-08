@@ -46,6 +46,18 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType,
           })
           .title('OG Preview'),
       ])
+ 
+    case `artist`:
+      return S.document().views([
+        S.view.form(),
+        S.view
+          .component(Iframe)
+          .options({
+            url: (doc: SanityDocumentWithSlug) => resolvePreviewUrl(doc, client),
+            reload: {button: true},
+          })
+          .title('Preview'),
+      ])
 
     default:
       return S.document().views([S.view.form()])

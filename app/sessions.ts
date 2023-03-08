@@ -9,7 +9,7 @@ const {getSession, commitSession, destroySession} = createCookieSessionStorage({
     path: '/',
     sameSite: 'lax',
     secrets: [String(process.env.SANITY_PREVIEW_SECRET)],
-    secure: true,
+    secure: false,
   },
 })
 
